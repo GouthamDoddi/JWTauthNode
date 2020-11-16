@@ -1,5 +1,5 @@
-import credentials from './connectDB';
-import { Client } from 'pg';
+const { credentials } = require('./connectDB');
+const { Client } = require('pg');
 
 // lets create an async func that will get us the list of current users
 async function getUsersList () {
@@ -10,4 +10,4 @@ async function getUsersList () {
     return response;
 }
 
-export default getUsersList;
+module.exports = getUsersList;

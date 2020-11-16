@@ -1,6 +1,6 @@
 const { Pool } = require('pg');
 
-import credentials from './connectDB';
+const { credentials } = require('./connectDB');
 
 const pool = new Pool(credentials);
 
@@ -29,4 +29,4 @@ async function getUser (userId) {
     // could be the response from the sql query or error
 }
 
-export default getUser;
+module.exports = getUser;

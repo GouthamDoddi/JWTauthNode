@@ -1,5 +1,5 @@
-import credentials from './connectDB';
-import { Pool } from 'pg';
+const { credentials } = require('./connectDB');
+const { Pool } = require('pg');
 
 async function insertUser (userdata) {
     const pool = new Pool(credentials);
@@ -11,13 +11,13 @@ async function insertUser (userdata) {
 
         values: [ userdata.user,
             userdata.user_id,
-            userdata.user_name,
-            userdata.mobile_no,
+            userdata.userName,
+            userdata.mobileNo,
             userdata.email,
             userdata.password,
-            userdata.last_updated,
-            userdata.token_id,
-            userdata.token_expiry ],
+            userdata.lastUpdated,
+            userdata.tokenId,
+            userdata.tokenExpiry ],
     };
     // the above query object contains the sql query and it's values
     // the values are passed trough the fuction parameter
@@ -36,4 +36,4 @@ async function insertUser (userdata) {
     // sucess message or error
 }
 
-export default insertUser;
+module.exports = insertUser;

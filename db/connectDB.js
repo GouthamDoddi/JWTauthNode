@@ -6,4 +6,4 @@ const credentials = {
     port: '54321',
 };
 
-export default credentials;
+module.exports = credentials;
