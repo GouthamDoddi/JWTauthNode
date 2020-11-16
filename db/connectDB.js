@@ -1,7 +1,7 @@
 const credentials = {
-    user: 'postgres',
+    user: 'gouth',
     host: 'localhost',
-    database: 'nodeapp',
+    database: 'postgres',
     password: '121212',
     port: '54321',
 };

@@ -19,7 +19,11 @@ router.post('/', (req, res, next) => {
 
     // using one line promises lets encrypt the password and
     // store it in a var
-    const encryptedPassword = bcrypt.hash(req.body.password, code).then(hash => hash);
+    const encryptedPassword = bcrypt.hash(req.body.password, code).then(hash => hash,
+        error => res.status(400).json({
+            message: 'Failed!',
+            result: error,
+        }));
 
     // now lets create an objects which has all the data for
     // inserting the user into db(register). We can insert/(register)
