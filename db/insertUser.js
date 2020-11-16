@@ -1,13 +1,10 @@
-const credentials = require('./connectDB');
-const { Pool } = require('pg');
+const pool = require('./connectDB');
 
-function insertUser (userdata) {
-    const pool = new Pool(credentials);
-
+async function insertUser (userdata) {
     const query = {
         text: `INSERT INTO  user(user, user_id, user_name,
         mobile_no, email, password, last_updated, token_id,
-        token_expiry) VALUES($1, $2, $3, $4, $5, $6, $7)`,
+        token_expiry) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
 
         values: [ userdata.user,
             userdata.user_id,
@@ -21,7 +18,7 @@ function insertUser (userdata) {
     // the values are passed trough the fuction parameter
 
     try {
-        const response = pool.query(query);
+        const response = await pool.query(query);
 
         return response;
     } catch (e) {

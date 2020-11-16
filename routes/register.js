@@ -1,8 +1,8 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
 
-const { insertUser } = require('../db/insertUser');
-const { code } = require('./hash');
+const insertUser = require('../db/insertUser');
+const code = require('./hash');
 
 const router = express.Router();
 
@@ -13,17 +13,14 @@ router.use(function timeLog (req, res, next) {
 });
 
 // the below code handels POST req to /register route
-router.post('/', (req, res, next) => {
+router.post('/', async (req, res) => {
     // first let us get the current time
     const currentTime = Math.floor(Date.now() / 1000);
 
     // using one line promises lets encrypt the password and
     // store it in a var
-    const encryptedPassword = bcrypt.hash(req.body.password, code).then(hash => hash,
-        error => res.status(400).json({
-            message: 'Failed!',
-            result: error,
-        }));
+    // const encryptedPassword = bcrypt.hash(req.body.password, code).then(hash => hash,
+    //     error => console.log(error));
 
     // now lets create an objects which has all the data for
     // inserting the user into db(register). We can insert/(register)
@@ -32,15 +29,17 @@ router.post('/', (req, res, next) => {
         userName: req.body.username,
         email: req.body.email,
         mobileNo: req.body.mobileNo,
-        password: encryptedPassword,
+        password: req.body.password,
         lastUpdated: currentTime,
     };
 
     try {
-        insertUser(userCredentials);
+        const result = await insertUser(userCredentials);
+
+        console.log(result);
 
         return res.status(201).json({
-            message: 'User created sucessfully',
+            message: result,
         });
     } catch (error) {
         return res.status(500).json({
