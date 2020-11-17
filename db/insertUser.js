@@ -2,17 +2,17 @@ const pool = require('./connectDB');
 
 async function insertUser (userdata) {
     const query = {
-        text: `INSERT INTO  user(user, user_id, user_name,
-        mobile_no, email, password, last_updated, token_id,
-        token_expiry) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
+        text: `INSERT INTO  "user"(user_id, user_name, mobile_no,
+             email, password, last_updated) VALUES($1, $2, $3, $4, $5, $6)`,
 
-        values: [ userdata.user,
-            userdata.user_id,
+        values: [
+            userdata.userId,
             userdata.userName,
             userdata.mobileNo,
             userdata.email,
             userdata.password,
-            userdata.lastUpdated ],
+            userdata.lastUpdated,
+        ],
     };
     // the above query object contains the sql query and it's values
     // the values are passed trough the fuction parameter
