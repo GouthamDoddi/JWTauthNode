@@ -1,17 +1,12 @@
-const { Pool } = require('pg');
+const pool = require('./connectDB');
 
-const { credentials } = require('./connectDB');
-
-const pool = new Pool(credentials);
-
-
-async function getUser (userId) {
+async function getUser (username) {
     // the parameter has userId of the user we want to
     // select
     const query = {
         name: 'fetch-user',
-        text: 'SELECT * FROM nodeapp.user WHERE user_id = $1',
-        values: [ userId ],
+        text: 'SELECT * FROM "user" WHERE user_name = $1 ',
+        values: [ username ],
     };
     // name is a name given to the query. I can be anything
     // you want it to be
