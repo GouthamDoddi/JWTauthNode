@@ -2,7 +2,6 @@ const express = require('express');
 const bcrypt = require('bcrypt');
 
 const insertUser = require('../db/insertUser');
-const code = require('./hash');
 
 const router = express.Router();
 
@@ -22,7 +21,7 @@ router.post('/', async (req, res) => {
 
     // using one line promises lets encrypt the password and
     // store it in a var
-    const encryptedPassword = bcrypt.hash(req.body.password, 10).then(hash => hash,
+    const encryptedPassword = await bcrypt.hash(req.body.password, 10).then(hash => hash,
         error => console.log(error));
 
     // now lets create an objects which has all the data for

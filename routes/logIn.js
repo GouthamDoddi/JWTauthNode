@@ -1,7 +1,8 @@
-const jwt = require('json-web-token');
+const jwt = require('jsonwebtoken');
 const express = require('express');
 const getUser = require('../db/getUser');
 const Bcrypt = require('bcrypt');
+const secret = '!@#DWe$%^gge&&**';
 
 const router = express.Router();
 
@@ -9,13 +10,34 @@ router.post('/', async (req, res) => {
     const result = await checkUser(req.body.username);
 
 
-    if (result.rowCount > 0) {
+    if (result.rowCount) {
+        // if rowCount > 0 .i.e if any user was matched
         console.log('found');
 
-        comparePasswords(result.rows[0].password, req.body.password);
+        // since a user was found lets check if the passwords match
+        await Bcrypt.compare(req.body.password, result.rows[0].password).then(
+            onfullfilled => {
+                console.log(onfullfilled);
+                if (onfullfilled) {
+                    console.log('User authenticated');
+
+                    const token = jwt.sign({ sub: req.body.user_id }, secret, {
+                        expiresIn: 86400, // expires in 24 hours
+                    });
+
+                    console.log(token);
+
+                    res.json({
+                        message: 'User authorized',
+                        token,
+                    });
+                }
+
+                return { error: true, msg: 'invalid password' };
+            },
+        );
     } else {
         console.log('No user found');
-        console.log(result);
         res.json(' Error! User is not found.');
     }
 });
@@ -27,19 +49,6 @@ async function checkUser (username) {
     } catch (error) {
         return error;
     }
-}
-
-async function comparePasswords (encryptedPassword, password) {
-    await Bcrypt.compare(password, encryptedPassword).then(
-        onfullfilled => console.log(onfullfilled),
-        rejected => console.log(rejected),
-    );
-    //     return { error: true, msg: 'invalid password' };
-
-    // // const token = jwt.sign({ sub: data._id }, secret, {
-    // //     expiresIn: 86400, // expires in 24 hours
-    // // })
-    // return 'User match!';
 }
 
 module.exports = router;
