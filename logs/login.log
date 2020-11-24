@@ -1,0 +1,5 @@
+{"message":"username is found in the database!","level":"info","timestamp":"2020-11-24T14:22:46.522Z"}
+{"message":"user unauthorized!, 401","level":"info","timestamp":"2020-11-24T14:22:46.659Z"}
+{"message":"username is found in the database!","level":"info","timestamp":"2020-11-24T14:22:50.395Z"}
+{"message":"passwords matched!, User authenticated !","level":"info","timestamp":"2020-11-24T14:22:50.513Z"}
+{"message":"user authorized!, 200","level":"info","timestamp":"2020-11-24T14:22:50.518Z"}
